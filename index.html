@@ -15,7 +15,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Stars */
+/* 🌌 Stars */
 .stars {
     position: fixed;
     width: 100%;
@@ -29,7 +29,7 @@ body {
     to { background-position: 10000px 5000px; }
 }
 
-/* Background Name */
+/* 💕 Background Name */
 .background-name {
     position: fixed;
     top: 50%;
@@ -69,11 +69,12 @@ button {
     cursor: pointer;
     margin: 10px;
     color: white;
-    position: relative;
 }
+
 .yes-btn {
     background: linear-gradient(45deg, #ff1a75, #ff66b2);
 }
+
 .no-btn {
     background: linear-gradient(45deg,#2196f3,#64b5f6);
 }
@@ -162,11 +163,23 @@ button {
     </div>
 </div>
 
-<div class="section" id="proposalSection">
+<div class="section">
     <h1>Will you be my Valentine? 💘</h1>
 
-    <button class="yes-btn" onclick="celebrate()">YES 💕</button>
-    <button id="noBtn" class="no-btn">No 😜</button>
+    <div id="buttonContainer" style="
+        position: relative;
+        width: 280px;
+        height: 110px;
+        margin-top: 20px;
+    ">
+        <button id="yesBtn" class="yes-btn" onclick="celebrate()" style="position:absolute; left:20px; top:35px;">
+            YES 💕
+        </button>
+
+        <button id="noBtn" class="no-btn" style="position:absolute; right:20px; top:35px;">
+            No 😜
+        </button>
+    </div>
 
     <p id="hiddenMessage" style="
         margin-top:20px;
@@ -270,41 +283,40 @@ function animateHappiness() {
     }, 30);
 }
 
-// Controlled NO button near YES only
+// Stable NO button
 document.addEventListener("DOMContentLoaded", function() {
     const noBtn = document.getElementById("noBtn");
     const hiddenMessage = document.getElementById("hiddenMessage");
-    const yesBtn = document.querySelector(".yes-btn");
+    const container = document.getElementById("buttonContainer");
     let attempts = 0;
 
-    function moveNearYes() {
+    function moveInside() {
         attempts++;
-
-        if (navigator.vibrate) navigator.vibrate(80);
+        if (navigator.vibrate) navigator.vibrate(60);
 
         if (attempts < 3) {
             noBtn.innerText = "Are you sure? 😏";
 
-            const rect = yesBtn.getBoundingClientRect();
-            const parentRect = document.getElementById("proposalSection").getBoundingClientRect();
+            const maxX = container.clientWidth - noBtn.offsetWidth;
+            const maxY = container.clientHeight - noBtn.offsetHeight;
 
-            const offsetX = (Math.random() - 0.5) * 200;
-            const offsetY = (Math.random() - 0.5) * 120;
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
 
-            noBtn.style.position = "absolute";
-            noBtn.style.left = rect.left - parentRect.left + offsetX + "px";
-            noBtn.style.top = rect.top - parentRect.top + offsetY + "px";
+            noBtn.style.left = randomX + "px";
+            noBtn.style.top = randomY + "px";
         } else {
             noBtn.innerText = "Okay fine YES 💕";
-            noBtn.style.position = "relative";
+            noBtn.style.left = "150px";
+            noBtn.style.top = "35px";
         }
     }
 
-    noBtn.addEventListener("mouseover", moveNearYes);
+    noBtn.addEventListener("mouseover", moveInside);
 
     noBtn.addEventListener("click", function() {
         if (attempts < 3) {
-            moveNearYes();
+            moveInside();
         } else {
             hiddenMessage.style.display = "block";
         }
