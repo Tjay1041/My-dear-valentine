@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Harini (Laduu) ❤️</title>
+<title>Blacky ❤️ Laduu</title>
 
 <style>
 body {
@@ -79,8 +79,17 @@ button {
     border-radius: 50px;
     cursor: pointer;
     margin: 10px;
-    background: linear-gradient(45deg, #ff1a75, #ff66b2);
     color: white;
+}
+
+/* YES button */
+.yes-btn {
+    background: linear-gradient(45deg, #ff1a75, #ff66b2);
+}
+
+/* NO button */
+.no-btn {
+    background: linear-gradient(45deg,#2196f3,#64b5f6);
 }
 
 /* Floating hearts */
@@ -128,13 +137,16 @@ button {
 <div class="section" id="intro">
     <h1 class="glow">Harini (Laduu) ❤️</h1>
     <p>I built something magical for you...</p>
-    <button onclick="startExperience()">Tap to Begin 💫</button>
+    <button class="yes-btn" onclick="startExperience()">Tap to Begin 💫</button>
 </div>
 
 <div id="mainContent" style="display:none;">
 
 <div class="section">
     <h1 id="typedText" class="glow"></h1>
+    <p style="margin-top:15px;font-size:20px;color:#ff99cc;">
+        From Blacky, always and forever 💖
+    </p>
 </div>
 
 <div class="section">
@@ -147,10 +159,13 @@ button {
 
 <div class="section">
     <h1 class="glow">📊 Our Love Statistics 📊</h1>
-    <p>❤️ Together since January 2024</p>
-    <p>🏆 Fights won by me: 0</p>
+
+    <p>❤️ Together since August 2024</p>
+    <p>💫 But before that… we went on lots of dates together 😌</p>
+    <p>🏆 Fights won by Blacky: 0</p>
     <p>👑 Fights won by Laduu: All of them</p>
-    <p>🍟 “I’m not hungry” moments: Every single time</p>
+    <p>🍟 Blacky: “I’m not hungry.” <br>Also Blacky: ends up eating your food every single time 😭</p>
+    <p>💖 Laduu’s smile effect on Blacky: 1000% dangerous</p>
 
     <div style="margin-top:40px;width:80%;max-width:500px;">
         <h2>💖 Love Progress Bar 💖</h2>
@@ -167,7 +182,19 @@ button {
 
 <div class="section">
     <h1>Will you be my Valentine? 💘</h1>
-    <button onclick="celebrate()">YES 💕</button>
+
+    <button class="yes-btn" onclick="celebrate()">YES 💕</button>
+
+    <button id="noBtn" class="no-btn">No 😜</button>
+
+    <p id="hiddenMessage" style="
+        margin-top:20px;
+        font-size:22px;
+        color:#ff66b2;
+        display:none;
+    ">
+        I knew you would choose this 😉💖
+    </p>
 </div>
 
 </div>
@@ -252,7 +279,7 @@ function animateHappiness() {
                     particleCount: 1,
                     spread: 360,
                     origin: { x: Math.random(), y: Math.random() - 0.2 },
-                    colors: ['#ff1a75', '#ff66b2', '#ff99cc']
+                    colors: ['#ff1a75','#ff66b2']
                 });
             }
         } else {
@@ -262,11 +289,43 @@ function animateHappiness() {
     }, 30);
 }
 
+// Playful NO button
+document.addEventListener("DOMContentLoaded", function() {
+    const noBtn = document.getElementById("noBtn");
+    const hiddenMessage = document.getElementById("hiddenMessage");
+    let attempts = 0;
+
+    noBtn.addEventListener("mouseover", function() {
+        attempts++;
+        if (attempts < 3) {
+            noBtn.innerText = "Are you sure? 😏";
+            const x = Math.random() * (window.innerWidth - 120);
+            const y = Math.random() * (window.innerHeight - 60);
+            noBtn.style.position = "absolute";
+            noBtn.style.left = x + "px";
+            noBtn.style.top = y + "px";
+        } else {
+            noBtn.innerText = "Okay fine YES 💕";
+            noBtn.style.position = "static";
+        }
+    });
+
+    noBtn.addEventListener("click", function() {
+        if (attempts >= 3) {
+            hiddenMessage.style.display = "block";
+        }
+    });
+});
+
 function celebrate() {
     document.body.innerHTML = `
         <div style="height:100vh;display:flex;justify-content:center;align-items:center;flex-direction:column;background:black;color:white;">
         <h1 style="font-size:50px;">SHE SAID YES 💕🎉</h1>
-        <p style="font-size:26px;">Best moment since January 2024.</p>
+        <p style="font-size:26px;">Best moment since August 2024.</p>
+        <p style="font-size:22px;margin-top:20px;color:#ff66b2;">
+            Forever yours,<br>
+            Blacky ❤️
+        </p>
         </div>
     `;
     const duration = 6000;
