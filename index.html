@@ -15,7 +15,7 @@ body {
     overflow-x: hidden;
 }
 
-/* 🌌 Stars */
+/* Stars */
 .stars {
     position: fixed;
     width: 100%;
@@ -29,7 +29,7 @@ body {
     to { background-position: 10000px 5000px; }
 }
 
-/* 💕 Background Name */
+/* Background Name */
 .background-name {
     position: fixed;
     top: 50%;
@@ -38,11 +38,6 @@ body {
     font-size: 120px;
     color: rgba(255, 0, 102, 0.08);
     z-index: -2;
-    animation: pulse 4s infinite alternate;
-}
-@keyframes pulse {
-    from { transform: translate(-50%, -50%) scale(1); }
-    to { transform: translate(-50%, -50%) scale(1.05); }
 }
 
 /* Sections */
@@ -74,6 +69,7 @@ button {
     cursor: pointer;
     margin: 10px;
     color: white;
+    position: relative;
 }
 .yes-btn {
     background: linear-gradient(45deg, #ff1a75, #ff66b2);
@@ -147,12 +143,11 @@ button {
 
 <div class="section">
     <h1 class="glow">📊 Our Love Statistics 📊</h1>
-
     <p>❤️ Together since August 2024</p>
     <p>💫 But before that… we went on lots of dates together 😌</p>
     <p>🏆 Fights won by Blacky: 0</p>
     <p>👑 Fights won by Laduu: All of them</p>
-    <p>🍟 Blacky: “I’m not hungry.” <br>Also Blacky: ends up eating your food every single time 😭</p>
+    <p>🍟 Blacky: “I’m not hungry.” Also Blacky: ends up eating your food every single time 😭</p>
 
     <div style="margin-top:40px;width:80%;max-width:500px;">
         <h2>💖 Love Progress Bar 💖</h2>
@@ -167,11 +162,10 @@ button {
     </div>
 </div>
 
-<div class="section">
+<div class="section" id="proposalSection">
     <h1>Will you be my Valentine? 💘</h1>
 
     <button class="yes-btn" onclick="celebrate()">YES 💕</button>
-
     <button id="noBtn" class="no-btn">No 😜</button>
 
     <p id="hiddenMessage" style="
@@ -276,37 +270,41 @@ function animateHappiness() {
     }, 30);
 }
 
-// Fully working NO button (phone + laptop + vibration)
+// Controlled NO button near YES only
 document.addEventListener("DOMContentLoaded", function() {
     const noBtn = document.getElementById("noBtn");
     const hiddenMessage = document.getElementById("hiddenMessage");
+    const yesBtn = document.querySelector(".yes-btn");
     let attempts = 0;
 
-    function moveButton() {
+    function moveNearYes() {
         attempts++;
 
-        if (navigator.vibrate) {
-            navigator.vibrate(100);
-        }
+        if (navigator.vibrate) navigator.vibrate(80);
 
         if (attempts < 3) {
             noBtn.innerText = "Are you sure? 😏";
-            const x = Math.random() * (window.innerWidth - 120);
-            const y = Math.random() * (window.innerHeight - 60);
+
+            const rect = yesBtn.getBoundingClientRect();
+            const parentRect = document.getElementById("proposalSection").getBoundingClientRect();
+
+            const offsetX = (Math.random() - 0.5) * 200;
+            const offsetY = (Math.random() - 0.5) * 120;
+
             noBtn.style.position = "absolute";
-            noBtn.style.left = x + "px";
-            noBtn.style.top = y + "px";
+            noBtn.style.left = rect.left - parentRect.left + offsetX + "px";
+            noBtn.style.top = rect.top - parentRect.top + offsetY + "px";
         } else {
             noBtn.innerText = "Okay fine YES 💕";
-            noBtn.style.position = "static";
+            noBtn.style.position = "relative";
         }
     }
 
-    noBtn.addEventListener("mouseover", moveButton);
+    noBtn.addEventListener("mouseover", moveNearYes);
 
     noBtn.addEventListener("click", function() {
         if (attempts < 3) {
-            moveButton();
+            moveNearYes();
         } else {
             hiddenMessage.style.display = "block";
         }
@@ -328,4 +326,10 @@ function celebrate() {
     const end = Date.now() + duration;
     (function frame() {
         confetti({ particleCount: 10, spread: 360 });
-        if (Date.no
+        if (Date.now() < end) requestAnimationFrame(frame);
+    })();
+}
+</script>
+
+</body>
+</html>
