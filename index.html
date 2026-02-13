@@ -249,27 +249,37 @@ function createRose() {
     setTimeout(() => rose.remove(), 6000);
 }
 
+// 🔥 SLOW LOVE METER
 function animateLoveBar() {
     let width = 0;
     const bar = document.getElementById("loveBar");
+
     const interval = setInterval(() => {
+
         if (width >= 100) {
             clearInterval(interval);
+
             bar.innerHTML = "1000% 💕";
             bar.style.width = "100%";
+
             document.body.classList.add("shake");
-            setTimeout(() => document.body.classList.remove("shake"), 600);
+            setTimeout(() => {
+                document.body.classList.remove("shake");
+            }, 600);
+
         } else {
             width++;
             bar.style.width = width + "%";
             bar.innerHTML = width + "%";
         }
-    }, 20);
+
+    }, 60); // slower dramatic speed
 }
 
 function animateHappiness() {
     let value = 0;
     const display = document.getElementById("happinessValue");
+
     const interval = setInterval(() => {
         if (value >= 100) {
             clearInterval(interval);
@@ -310,37 +320,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
             const areaWidth = area.clientWidth;
             const areaHeight = area.clientHeight;
-
             const btnWidth = noBtn.offsetWidth;
             const btnHeight = noBtn.offsetHeight;
 
-            const yesRect = yesBtn.getBoundingClientRect();
-            const areaRect = area.getBoundingClientRect();
-
-            let randomX, randomY;
-            let safe = false;
-
-            while (!safe) {
-                randomX = Math.random() * (areaWidth - btnWidth);
-                randomY = Math.random() * (areaHeight - btnHeight);
-
-                const proposedLeft = areaRect.left + randomX;
-                const proposedTop = areaRect.top + randomY;
-
-                const overlapsYes =
-                    proposedLeft < yesRect.right &&
-                    proposedLeft + btnWidth > yesRect.left &&
-                    proposedTop < yesRect.bottom &&
-                    proposedTop + btnHeight > yesRect.top;
-
-                if (!overlapsYes) safe = true;
-            }
+            let randomX = Math.random() * (areaWidth - btnWidth);
+            let randomY = Math.random() * (areaHeight - btnHeight);
 
             noBtn.style.left = randomX + "px";
             noBtn.style.top = randomY + "px";
 
         } else {
-
             noBtn.innerText = "Okay fine YES 💕";
             noBtn.style.left = "50%";
             noBtn.style.top = "140px";
