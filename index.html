@@ -15,7 +15,7 @@ body {
     overflow-x: hidden;
 }
 
-/* 🌌 Animated Star Background */
+/* 🌌 Stars */
 .stars {
     position: fixed;
     width: 100%;
@@ -29,7 +29,7 @@ body {
     to { background-position: 10000px 5000px; }
 }
 
-/* 💕 Giant Background Name */
+/* 💕 Background Name */
 .background-name {
     position: fixed;
     top: 50%;
@@ -37,7 +37,6 @@ body {
     transform: translate(-50%, -50%);
     font-size: 120px;
     color: rgba(255, 0, 102, 0.08);
-    white-space: nowrap;
     z-index: -2;
     animation: pulse 4s infinite alternate;
 }
@@ -54,11 +53,6 @@ body {
     align-items: center;
     flex-direction: column;
     padding: 30px;
-    opacity: 0;
-    animation: fadeIn 2s forwards;
-}
-@keyframes fadeIn {
-    to { opacity: 1; }
 }
 
 /* Glow */
@@ -73,26 +67,22 @@ body {
 
 /* Buttons */
 button {
-    padding: 20px 35px;
-    font-size: 22px;
+    padding: 18px 30px;
+    font-size: 20px;
     border: none;
-    border-radius: 50px;
+    border-radius: 40px;
     cursor: pointer;
     margin: 10px;
     color: white;
 }
-
-/* YES button */
 .yes-btn {
     background: linear-gradient(45deg, #ff1a75, #ff66b2);
 }
-
-/* NO button */
 .no-btn {
     background: linear-gradient(45deg,#2196f3,#64b5f6);
 }
 
-/* Floating hearts */
+/* Hearts */
 .heart {
     position: fixed;
     bottom: -20px;
@@ -104,13 +94,13 @@ button {
     to { transform: translateY(-110vh); opacity: 0; }
 }
 
-/* Falling roses */
+/* Roses */
 @keyframes fall {
     from { transform: translateY(0); opacity: 1; }
     to { transform: translateY(110vh); opacity: 0; }
 }
 
-/* Screen shake */
+/* Shake */
 @keyframes shake {
     0% { transform: translate(0px, 0px); }
     25% { transform: translate(5px, -5px); }
@@ -118,9 +108,7 @@ button {
     75% { transform: translate(5px, 5px); }
     100% { transform: translate(0px, 0px); }
 }
-.shake {
-    animation: shake 0.5s ease;
-}
+.shake { animation: shake 0.5s ease; }
 </style>
 </head>
 
@@ -165,7 +153,6 @@ button {
     <p>🏆 Fights won by Blacky: 0</p>
     <p>👑 Fights won by Laduu: All of them</p>
     <p>🍟 Blacky: “I’m not hungry.” <br>Also Blacky: ends up eating your food every single time 😭</p>
-    <p>💖 Laduu’s smile effect on Blacky: 1000% dangerous</p>
 
     <div style="margin-top:40px;width:80%;max-width:500px;">
         <h2>💖 Love Progress Bar 💖</h2>
@@ -289,14 +276,19 @@ function animateHappiness() {
     }, 30);
 }
 
-// Playful NO button
+// Fully working NO button (phone + laptop + vibration)
 document.addEventListener("DOMContentLoaded", function() {
     const noBtn = document.getElementById("noBtn");
     const hiddenMessage = document.getElementById("hiddenMessage");
     let attempts = 0;
 
-    noBtn.addEventListener("mouseover", function() {
+    function moveButton() {
         attempts++;
+
+        if (navigator.vibrate) {
+            navigator.vibrate(100);
+        }
+
         if (attempts < 3) {
             noBtn.innerText = "Are you sure? 😏";
             const x = Math.random() * (window.innerWidth - 120);
@@ -308,10 +300,14 @@ document.addEventListener("DOMContentLoaded", function() {
             noBtn.innerText = "Okay fine YES 💕";
             noBtn.style.position = "static";
         }
-    });
+    }
+
+    noBtn.addEventListener("mouseover", moveButton);
 
     noBtn.addEventListener("click", function() {
-        if (attempts >= 3) {
+        if (attempts < 3) {
+            moveButton();
+        } else {
             hiddenMessage.style.display = "block";
         }
     });
@@ -332,10 +328,4 @@ function celebrate() {
     const end = Date.now() + duration;
     (function frame() {
         confetti({ particleCount: 10, spread: 360 });
-        if (Date.now() < end) requestAnimationFrame(frame);
-    })();
-}
-</script>
-
-</body>
-</html>
+        if (Date.no
