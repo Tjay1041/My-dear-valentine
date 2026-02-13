@@ -166,23 +166,29 @@ button {
 <div class="section">
     <h1>Will you be my Valentine? 💘</h1>
 
-    <div id="buttonContainer" style="
+    <div id="buttonArea" style="
         position: relative;
-        width: 280px;
-        height: 110px;
-        margin-top: 20px;
+        width: 100%;
+        max-width: 420px;
+        height: 200px;
+        margin-top: 30px;
     ">
-        <button id="yesBtn" class="yes-btn" onclick="celebrate()" style="position:absolute; left:20px; top:35px;">
+
+        <button id="yesBtn" class="yes-btn"
+            style="position:absolute; left:50%; transform:translateX(-50%); top:20px;"
+            onclick="celebrate()">
             YES 💕
         </button>
 
-        <button id="noBtn" class="no-btn" style="position:absolute; right:20px; top:35px;">
+        <button id="noBtn" class="no-btn"
+            style="position:absolute; left:50%; transform:translateX(-50%); top:100px;">
             No 😜
         </button>
+
     </div>
 
     <p id="hiddenMessage" style="
-        margin-top:20px;
+        margin-top:25px;
         font-size:22px;
         color:#ff66b2;
         display:none;
@@ -283,44 +289,73 @@ function animateHappiness() {
     }, 30);
 }
 
-// Stable NO button
 document.addEventListener("DOMContentLoaded", function() {
+
     const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
     const hiddenMessage = document.getElementById("hiddenMessage");
-    const container = document.getElementById("buttonContainer");
+    const area = document.getElementById("buttonArea");
+
     let attempts = 0;
 
-    function moveInside() {
+    function moveButton() {
+
         attempts++;
-        if (navigator.vibrate) navigator.vibrate(60);
+
+        if (navigator.vibrate) navigator.vibrate(80);
 
         if (attempts < 3) {
+
             noBtn.innerText = "Are you sure? 😏";
 
-            const maxX = container.clientWidth - noBtn.offsetWidth;
-            const maxY = container.clientHeight - noBtn.offsetHeight;
+            const areaWidth = area.clientWidth;
+            const areaHeight = area.clientHeight;
 
-            const randomX = Math.random() * maxX;
-            const randomY = Math.random() * maxY;
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+
+            const yesRect = yesBtn.getBoundingClientRect();
+            const areaRect = area.getBoundingClientRect();
+
+            let randomX, randomY;
+            let safe = false;
+
+            while (!safe) {
+                randomX = Math.random() * (areaWidth - btnWidth);
+                randomY = Math.random() * (areaHeight - btnHeight);
+
+                const proposedLeft = areaRect.left + randomX;
+                const proposedTop = areaRect.top + randomY;
+
+                const overlapsYes =
+                    proposedLeft < yesRect.right &&
+                    proposedLeft + btnWidth > yesRect.left &&
+                    proposedTop < yesRect.bottom &&
+                    proposedTop + btnHeight > yesRect.top;
+
+                if (!overlapsYes) safe = true;
+            }
 
             noBtn.style.left = randomX + "px";
             noBtn.style.top = randomY + "px";
+
         } else {
+
             noBtn.innerText = "Okay fine YES 💕";
-            noBtn.style.left = "150px";
-            noBtn.style.top = "35px";
+            noBtn.style.left = "50%";
+            noBtn.style.top = "140px";
+            noBtn.style.transform = "translateX(-50%)";
         }
     }
 
-    noBtn.addEventListener("mouseover", moveInside);
-
     noBtn.addEventListener("click", function() {
         if (attempts < 3) {
-            moveInside();
+            moveButton();
         } else {
             hiddenMessage.style.display = "block";
         }
     });
+
 });
 
 function celebrate() {
