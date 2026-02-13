@@ -1,21 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Harini ❤️</title>
+<title>For Harini (Laduu) ❤️</title>
 
 <style>
 body {
     margin: 0;
-    font-family: 'Arial', sans-serif;
-    background: radial-gradient(circle at top, #1a001f, #000);
+    font-family: Arial, sans-serif;
+    background: black;
     color: white;
     text-align: center;
     overflow-x: hidden;
 }
 
-/* Full screen sections */
+/* 🌌 Animated Star Background */
+.stars {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+    animation: moveStars 60s linear infinite;
+    z-index: -3;
+}
+@keyframes moveStars {
+    from { background-position: 0 0; }
+    to { background-position: 10000px 5000px; }
+}
+
+/* 💕 Giant Background Name */
+.background-name {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 120px;
+    color: rgba(255, 0, 102, 0.08);
+    white-space: nowrap;
+    z-index: -2;
+    animation: pulse 4s infinite alternate;
+}
+@keyframes pulse {
+    from { transform: translate(-50%, -50%) scale(1); }
+    to { transform: translate(-50%, -50%) scale(1.05); }
+}
+
+/* Sections */
 .section {
     min-height: 100vh;
     display: flex;
@@ -23,27 +54,31 @@ body {
     align-items: center;
     flex-direction: column;
     padding: 30px;
+    opacity: 0;
+    animation: fadeIn 2s forwards;
+}
+@keyframes fadeIn {
+    to { opacity: 1; }
 }
 
-/* Big glowing text */
+/* Glow */
 .glow {
-    font-size: 40px;
+    font-size: 42px;
     animation: glow 2s infinite alternate;
 }
-
 @keyframes glow {
     from { text-shadow: 0 0 10px #ff4da6; }
-    to { text-shadow: 0 0 30px #ff1a75, 0 0 50px #ff66b2; }
+    to { text-shadow: 0 0 30px #ff1a75, 0 0 60px #ff66b2; }
 }
 
-/* Button style */
+/* Buttons */
 button {
     padding: 20px 35px;
     font-size: 22px;
     border: none;
     border-radius: 50px;
     cursor: pointer;
-    margin-top: 20px;
+    margin: 10px;
     background: linear-gradient(45deg, #ff1a75, #ff66b2);
     color: white;
 }
@@ -55,56 +90,85 @@ button {
     font-size: 20px;
     animation: floatUp linear infinite;
 }
-
 @keyframes floatUp {
     from { transform: translateY(0); opacity: 1; }
     to { transform: translateY(-110vh); opacity: 0; }
 }
 
-/* Fade in */
-.fade {
-    opacity: 0;
-    animation: fadeIn 3s forwards;
+/* Falling roses */
+@keyframes fall {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(110vh); opacity: 0; }
 }
 
-@keyframes fadeIn {
-    to { opacity: 1; }
+/* Screen shake */
+@keyframes shake {
+    0% { transform: translate(0px, 0px); }
+    25% { transform: translate(5px, -5px); }
+    50% { transform: translate(-5px, 5px); }
+    75% { transform: translate(5px, 5px); }
+    100% { transform: translate(0px, 0px); }
+}
+.shake {
+    animation: shake 0.5s ease;
 }
 </style>
 </head>
 
 <body>
 
+<div class="stars"></div>
+<div class="background-name">Laduu 💖</div>
+
 <audio id="bgMusic" loop>
     <source src="Harini song.mp3" type="audio/mpeg">
 </audio>
 
-<!-- INTRO SCREEN -->
-<div class="section">
-    <h1 class="glow">Harini ❤️</h1>
-    <p style="font-size:22px;">I built something for you...</p>
+<!-- INTRO -->
+<div class="section" id="intro">
+    <h1 class="glow">Harini (Laduu) ❤️</h1>
+    <p>I built something magical for you...</p>
     <button onclick="startExperience()">Tap to Begin 💫</button>
 </div>
 
-<!-- MAIN CONTENT -->
 <div id="mainContent" style="display:none;">
 
-    <div class="section">
-        <h1 id="typedText" class="glow"></h1>
-    </div>
+<div class="section">
+    <h1 id="typedText" class="glow"></h1>
+</div>
 
-    <div class="section fade">
-        <h2 style="font-size:28px;">
-        I’m not a computer science graduate.<br><br>
-        But I tried to learn and build this using GPT…<br><br>
-        just to make you smile. 💖
-        </h2>
-    </div>
+<div class="section">
+    <h2>
+    I’m not a computer science graduate.<br><br>
+    But I tried to learn and build this using GPT…<br><br>
+    just to make you smile, Laduu. 💖
+    </h2>
+</div>
 
-    <div class="section">
-        <h1 style="font-size:36px;">Will you be my Valentine? 💘</h1>
-        <button onclick="celebrate()">YES 💕</button>
+<div class="section">
+    <h1 class="glow">📊 Our Love Statistics 📊</h1>
+    <p>❤️ Together since January 2024</p>
+    <p>🏆 Fights won by me: 0</p>
+    <p>👑 Fights won by Laduu: All of them</p>
+    <p>🍟 “I’m not hungry” moments: Every single time</p>
+
+    <div style="margin-top:40px;width:80%;max-width:500px;">
+        <h2>💖 Love Progress Bar 💖</h2>
+        <div style="background:#333;border-radius:30px;height:30px;overflow:hidden;">
+            <div id="loveBar" style="height:100%;width:0%;background:linear-gradient(90deg,#ff1a75,#ff66b2);line-height:30px;font-weight:bold;">0%</div>
+        </div>
+
+        <h2 style="margin-top:40px;">😊 Laduu Happiness Meter 😊</h2>
+        <div style="font-size:40px;">
+            <span id="happinessValue">0</span>%
+        </div>
     </div>
+</div>
+
+<div class="section">
+    <h1>Will you be my Valentine? 💘</h1>
+    <button onclick="celebrate()">YES 💕</button>
+</div>
 
 </div>
 
@@ -112,18 +176,20 @@ button {
 
 <script>
 function startExperience() {
-    document.querySelector('.section').style.display = "none";
+    document.getElementById("intro").style.display = "none";
     document.getElementById("mainContent").style.display = "block";
     document.getElementById("bgMusic").play();
     typeWriter();
+    animateLoveBar();
+    animateHappiness();
     setInterval(createHeart, 300);
+    setInterval(createRose, 800);
 }
 
 function typeWriter() {
-    const text = "My love for you is always more than you expect 💖";
+    const text = "My love for you, Laduu, is always more than you expect 💖";
     const element = document.getElementById("typedText");
     let i = 0;
-
     function typing() {
         if (i < text.length) {
             element.innerHTML += text.charAt(i);
@@ -144,6 +210,58 @@ function createHeart() {
     setTimeout(() => heart.remove(), 8000);
 }
 
+function createRose() {
+    const rose = document.createElement("div");
+    rose.innerHTML = "🌹";
+    rose.style.position = "fixed";
+    rose.style.top = "-20px";
+    rose.style.left = Math.random() * 100 + "vw";
+    rose.style.fontSize = (20 + Math.random() * 20) + "px";
+    rose.style.animation = "fall 6s linear forwards";
+    document.body.appendChild(rose);
+    setTimeout(() => rose.remove(), 6000);
+}
+
+function animateLoveBar() {
+    let width = 0;
+    const bar = document.getElementById("loveBar");
+    const interval = setInterval(() => {
+        if (width >= 100) {
+            clearInterval(interval);
+            bar.innerHTML = "1000% 💕";
+            bar.style.width = "100%";
+            document.body.classList.add("shake");
+            setTimeout(() => document.body.classList.remove("shake"), 600);
+        } else {
+            width++;
+            bar.style.width = width + "%";
+            bar.innerHTML = width + "%";
+        }
+    }, 20);
+}
+
+function animateHappiness() {
+    let value = 0;
+    const display = document.getElementById("happinessValue");
+    const interval = setInterval(() => {
+        if (value >= 100) {
+            clearInterval(interval);
+            display.innerHTML = "∞ 💘";
+            for (let i = 0; i < 200; i++) {
+                confetti({
+                    particleCount: 1,
+                    spread: 360,
+                    origin: { x: Math.random(), y: Math.random() - 0.2 },
+                    colors: ['#ff1a75', '#ff66b2', '#ff99cc']
+                });
+            }
+        } else {
+            value++;
+            display.innerHTML = value;
+        }
+    }, 30);
+}
+
 function celebrate() {
     document.body.innerHTML = `
         <div style="height:100vh;display:flex;justify-content:center;align-items:center;flex-direction:column;background:black;color:white;">
@@ -151,15 +269,10 @@ function celebrate() {
         <p style="font-size:26px;">Best moment since January 2024.</p>
         </div>
     `;
-
     const duration = 6000;
     const end = Date.now() + duration;
-
     (function frame() {
-        confetti({
-            particleCount: 10,
-            spread: 360
-        });
+        confetti({ particleCount: 10, spread: 360 });
         if (Date.now() < end) requestAnimationFrame(frame);
     })();
 }
